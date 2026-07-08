@@ -34,3 +34,17 @@ EOF
 else
     echo "Конфиг содержит настройки master-server"
 fi
+read -rsp "Введите пароль для УЗ подключения к Мастеру: " pass
+echo
+
+if [ -z "$pass" ]; then
+    echo "Пароль не может быть пустым"
+    exit 1
+fi
+
+sudo mysql -e "CREATE USER IF NOT EXISTS '${master_user}'@'%' IDENTIFIED BY '${pass}';"
+sudo mysql -e "ALTER USER '${master_user}'@'%' IDENTIFIED BY '${pass}';"
+sudo mysql -e "GRANT REPLICATION SLAVE ON *.* TO '${master_user}'@'%';"
+sudo mysql -e "FLUSH PRIVILEGES;"
+sudo mysql -e "SHOW BINARY LOG STATUS\G"
+echo "Master-server настроен"
