@@ -48,3 +48,10 @@
 - Зайти на сервер который будет slave по ssh
 - Скопировать скрипт slave.sh
 - Запустить скрипт, во время работы указать логин и пароль, адрес сервера master для подключения к БД
+
+
+
+
+
+https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/scripts/nginx.sh
+https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/scripts/master.sh
