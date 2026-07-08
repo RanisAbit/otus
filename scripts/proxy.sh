@@ -6,7 +6,7 @@ balance_srv1=$1
 balance_srv2=$2
 
 if [ $# -ne 2 ]; then
-    echo "Нужно указать два параметра"
+    echo "Нужно указать IP сереров"
     exit 1
 fi
 
