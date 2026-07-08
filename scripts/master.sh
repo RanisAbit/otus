@@ -45,8 +45,9 @@ if [ -z "$pass" ]; then
     exit 1
 fi
 
+sudo mysql -e "CREATE USER IF NOT EXISTS '${master_user}'@'%' IDENTIFIED BY '${pass}';"
 sudo mysql -e "ALTER USER 'repl'@'%'IDENTIFIED BY '${pass}';"
-sudo mysql -e "GRANT REPLICATION SLAVE ON *.* TO '${master_user}'@'%';"
+sudo mysql -e "GRANT REPLICATION SLAVE ON *.* TO '${master_user}'@'%';"   
 sudo mysql -e "FLUSH PRIVILEGES;"
 sudo mysql -e "SHOW MASTER STATUS\G"
 
