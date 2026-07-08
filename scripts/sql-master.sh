@@ -46,5 +46,5 @@ sudo mysql -e "CREATE USER IF NOT EXISTS '${master_user}'@'%' IDENTIFIED BY '${p
 sudo mysql -e "ALTER USER '${master_user}'@'%' IDENTIFIED BY '${pass}';"
 sudo mysql -e "GRANT REPLICATION SLAVE ON *.* TO '${master_user}'@'%';"
 sudo mysql -e "FLUSH PRIVILEGES;"
-sudo mysql -e "SHOW BINARY LOG STATUS\G"
+sudo mysql -e "SHOW MASTER STATUS\G"
 echo "Master-server настроен"
