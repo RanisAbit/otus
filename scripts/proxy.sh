@@ -47,17 +47,17 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /var/conf/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - /opt/docker-compose/configs/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
     restart: unless-stopped
 EOF
 fi
 
-sudo mkdir -p /var/conf/nginx/
-sudo curl https://raw.githubusercontent.com/RanisAbit/otus/main/configs/nginx.conf -o /var/conf/nginx/default.conf
+sudo mkdir -p /opt/docker-compose/configs/nginx/config/
+sudo curl https://raw.githubusercontent.com/RanisAbit/otus/main/configs/nginx.conf -o /opt/docker-compose/configs/nginx/config/default.conf
 
 
-sudo sed -i "s/srv_address1/${balance_srv1}/g" /var/conf/nginx/default.conf
-sudo sed -i "s/srv_address2/${balance_srv2}/g" /var/conf/nginx/default.conf
+sudo sed -i "s/srv_address1/${balance_srv1}/g" /opt/docker-compose/configs/nginx/config/default.conf
+sudo sed -i "s/srv_address2/${balance_srv2}/g" /opt/docker-compose/configs/nginx/config/default.conf
 
 # Запуск сервера
 if sudo docker ps -a --format '{{.Names}}' | grep -qx 'proxy'; then
