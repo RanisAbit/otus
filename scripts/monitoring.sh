@@ -1,6 +1,6 @@
 #!/bin/bash
 
-work_dir="/opt/docker-compose/configs/"
+work_dir="/opt/docker-compose/configs"
 
 # Установка docker
 
@@ -31,10 +31,9 @@ fi
 sudo mkdir -p $work_dir/prometheus/conf/
 
 if [ -e $work_dir/prometheus/docker-compose.yml ]; then
-rm $work_dir/prometheus/docker-compose.yml
+rm -f $work_dir/prometheus/docker-compose.yml
 fi
 sudo tee $work_dir/prometheus/docker-compose.yml << EOF
-version: "3.8"
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -56,10 +55,9 @@ sudo mkdir -p $work_dir/grafana/data/
 sudo chmod -R 777 $work_dir/grafana/data/
 
 if [ -e $work_dir/grafana/docker-compose.yml ]; then
-rm work_dir/grafana/docker-compose.yml
+rm -f $work_dir/grafana/docker-compose.yml
 fi
 sudo tee $work_dir/grafana/docker-compose.yml << EOF
-version: "3.8"
 services:
   grafana:
     image: grafana/grafana
