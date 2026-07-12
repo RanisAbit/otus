@@ -37,7 +37,7 @@ sudo tee $work_dir/prometheus/docker-compose.yml << EOF
 version: "3.8"
 services:
   prometheus:
-    image: ubuntu/prometheus
+    image: prom/prometheus:latest
     container_name: prom
     ports:
       - 9090:9090
@@ -58,7 +58,7 @@ if [ -e $work_dir/grafana/docker-compose.yml ]; then
 else
 sudo mkdir -p $work_dir/grafana/conf/
 sudo mkdir -p $work_dir/grafana/data/
-sudo chmod -R 766 $work_dir/grafana/data/
+sudo chmod -R 777 $work_dir/grafana/data/
 sudo tee $work_dir/grafana/docker-compose.yml << EOF
 version: "3.8"
 services:
