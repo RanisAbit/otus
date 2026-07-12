@@ -1,0 +1,7 @@
+- targets:
+    - sql_main:9100
+    - sql_slave:9100
+    - proxy:9100
+    - monitor:9100
+  labels:
+    job: node
