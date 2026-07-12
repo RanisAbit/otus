@@ -57,6 +57,7 @@ if [ -e $work_dir/grafana/docker-compose.yml ]; then
 :
 else
 sudo mkdir -p $work_dir/grafana/conf/
+sudo mkdir -p $work_dir/grafana/data/
 sudo tee $work_dir/grafana/docker-compose.yml << EOF
 version: "3.8"
 services:
@@ -69,15 +70,14 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=$pass
     volumes:
-      - $work_dir/grafana/conf/grafana.yml:/etc/grafana/provisioning/datasources/prometheus.yml
+      - $work_dir/grafana/data/:/var/lib/grafana
 EOF
 fi
 
 # Загрузка конфигов
 
-sudo curl https:// -O $work_dir/prometheus/conf/node_targets.yml
-sudo curl https:// -O $work_dir/grafana/conf/grafana.yml
-sudo curl https:// -O $work_dir/prometheus/conf/node_targets.yml
+sudo curl https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/prometheus.yml -O $work_dir/prometheus/conf/prometheus.yml
+sudo curl https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/prometheus/conf/node_targets.yml
 
 # Настройка prometheus
 
