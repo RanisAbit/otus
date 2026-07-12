@@ -28,11 +28,11 @@ EOF
 fi
 
 # Установка prometheus
+sudo mkdir -p $work_dir/prometheus/conf/
 
 if [ -e $work_dir/prometheus/docker-compose.yml ]; then
-:
-else
-sudo mkdir -p $work_dir/prometheus/conf/
+rm $work_dir/prometheus/docker-compose.yml
+fi
 sudo tee $work_dir/prometheus/docker-compose.yml << EOF
 version: "3.8"
 services:
@@ -46,19 +46,18 @@ services:
       - $work_dir/prometheus/conf/node_targets.yml:/etc/prometheus/file_sd/node_targets.yml
     restart: unless-stopped
 EOF
-fi
 
 # Установка grafana
 
 read -rsp "Введите пароль для grafana:" pass
 echo
-
-if [ -e $work_dir/grafana/docker-compose.yml ]; then
-:
-else
 sudo mkdir -p $work_dir/grafana/conf/
 sudo mkdir -p $work_dir/grafana/data/
 sudo chmod -R 777 $work_dir/grafana/data/
+
+if [ -e $work_dir/grafana/docker-compose.yml ]; then
+rm work_dir/grafana/docker-compose.yml
+fi
 sudo tee $work_dir/grafana/docker-compose.yml << EOF
 version: "3.8"
 services:
@@ -73,7 +72,6 @@ services:
     volumes:
       - $work_dir/grafana/data/:/var/lib/grafana
 EOF
-fi
 
 # Загрузка конфигов
 
