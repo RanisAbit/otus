@@ -85,9 +85,9 @@ read -rp "Введите адрес Мастер сервера SQL:" sql_main
 echo
 read -rp "Введите адрес Слейв сервера SQL:" sql_slave
 echo
-read -rp "Введите адрес Proxy сервера SQL:" proxy
+read -rp "Введите адрес Proxy сервера :" proxy
 echo
-read -rp "Введите адрес Мониторинг сервера SQL:" monitor
+read -rp "Введите адрес Мониторинг сервера :" monitor
 echo
 
 sudo sed -i "s/sql_main/${sql_main}"/g $work_dir/prometheus/conf/node_targets.yml
