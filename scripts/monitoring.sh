@@ -73,8 +73,8 @@ EOF
 
 # Загрузка конфигов
 
-sudo curl https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/prometheus.yml -O $work_dir/prometheus/conf/prometheus.yml
-sudo curl https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/prometheus/conf/node_targets.yml
+sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/prometheus.yml -O $work_dir/prometheus/conf/prometheus.yml
+sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/prometheus/conf/node_targets.yml
 
 # Настройка prometheus
 
