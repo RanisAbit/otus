@@ -78,14 +78,22 @@ sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/c
 
 # Настройка prometheus
 
-read -rp "Введите адрес Мастер сервера SQL:" sql_main
-echo
-read -rp "Введите адрес Слейв сервера SQL:" sql_slave
-echo
-read -rp "Введите адрес Proxy сервера :" proxy
-echo
-read -rp "Введите адрес Мониторинг сервера :" monitor
-echo
+#read -rp "Введите адрес Мастер сервера SQL:" 
+sql_main=10.0.0.201
+#echo
+#read -rp "Введите адрес Слейв сервера SQL:" 
+sql_slave=10.0.0.33
+#echo
+#read -rp "Введите адрес Proxy сервера :" 
+proxy=10.0.0.37
+#echo
+#read -rp "Введите адрес Мониторинг сервера :" 
+monitor=10.0.0.129
+#echo
+
+
+
+
 
 sudo sed -i "s/sql_main/${sql_main}"/g $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/sql_slave/${sql_slave}/g" $work_dir/prometheus/conf/node_targets.yml
