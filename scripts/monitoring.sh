@@ -50,7 +50,7 @@ EOF
 
 read -rsp "Введите пароль для grafana:" pass
 echo
-sudo mkdir -p $work_dir/grafana/conf/
+sudo mkdir -p $work_dir/grafana/datasources/
 sudo mkdir -p $work_dir/grafana/data/
 sudo chmod -R 777 $work_dir/grafana/data/
 
@@ -69,15 +69,55 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=$pass
     volumes:
       - $work_dir/grafana/data/:/var/lib/grafana
+      - $work_dir/grafana/datasources:/etc/grafana/provisioning/datasources
+      
 EOF
 
 # Загрузка конфигов
 
-sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/prometheus.yml -O $work_dir/prometheus/conf/prometheus.yml
-sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/prometheus/conf/node_targets.yml
+#sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/prometheus.yml -O $work_dir/prometheus/conf/prometheus.yml
+sudo tee $work_dir/prometheus/conf/prometheus.yml << EOF
+# Sample config for Prometheus.
+
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+      
+  - job_name: 'node'
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/file_sd/node_targets.yml
+EOF
+
+#sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/prometheus/conf/node_targets.yml
+sudo tee $work_dir/prometheus/conf/node_targets.yml << EOF
+- targets: [ 'sql_main:9100', 'sql_slave:9100', 'proxy:9100', 'monitor:9100' ]
+  labels:
+    job: node
+EOF
+
+#sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/grafana/conf/datasources.yml
+sudo tee $work_dir/grafana/datasources/prometheus.yml << EOF
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://monitor:9090
+    isDefault: true
+EOF
+
 
 # Настройка prometheus
-
 #read -rp "Введите адрес Мастер сервера SQL:" 
 sql_main=10.0.0.201
 #echo
@@ -89,16 +129,13 @@ proxy=10.0.0.37
 #echo
 #read -rp "Введите адрес Мониторинг сервера :" 
 monitor=10.0.0.129
-#echo
-
-
-
 
 
 sudo sed -i "s/sql_main/${sql_main}"/g $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/sql_slave/${sql_slave}/g" $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/proxy/${proxy}/g" $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/monitor/${monitor}/g" $work_dir/prometheus/conf/node_targets.yml
+sudo sed -i "s/monitor/${monitor}/g" $work_dir/grafana/datasources/prometheus.yml
 
 #Запуск контейнеров
 if sudo docker ps -a --format '{{.Names}}' | grep -qx 'prom'; then
