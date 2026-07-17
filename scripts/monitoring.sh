@@ -70,7 +70,7 @@ services:
     volumes:
       - $work_dir/grafana/data/:/var/lib/grafana
       - $work_dir/grafana/datasources:/etc/grafana/provisioning/datasources
-      
+    restart: unless-stopped
 EOF
 
 # Загрузка конфигов
