@@ -20,9 +20,7 @@ if ! grep -q "server_id = 2" "$config_file"; then
 
 [mysqld]
 user = mysql
-
 bind-address = 0.0.0.0
-
 server_id = 2
 log_bin = mysql-bin
 relay_log = relay-log-server
