@@ -1,10 +1,12 @@
 #!/bin/bash
 
 docker_file="/opt/docker-compose/configs/wordpress/docker-compose.yml"
-IP_MASTER_MYSQL="$1"
 
-if [ -z "$IP_MASTER_MYSQL" ]; then
-    echo "Передай IP master-сервера аргументом"
+read -rsp "Введите IP адрес Master-server: " $IP_MASTER_MYSQL
+echo
+
+if [ -z "$pass" ]; then
+    echo "IP адрес не может быть пустым"
     exit 1
 fi
 
@@ -42,7 +44,6 @@ fi
 
 if [ ! -e "$docker_file" ]; then
     sudo mkdir -p /opt/docker-compose/configs/wordpress/html
-    sudo mkdir -p /opt/docker-compose/configs/wordpress
 fi
 
 sudo tee "$docker_file" > /dev/null <<EOF
@@ -64,4 +65,9 @@ EOF
 
 echo "$(hostname)" | sudo tee /opt/docker-compose/configs/wordpress/html/health.txt > /dev/null
 
+if sudo docker ps -a --format '{{.Names}}' | grep -qx 'wp-app'; then
+    sudo docker compose -f "$docker_file" down
+fi
 sudo docker compose -f "$docker_file" up -d
+
+
