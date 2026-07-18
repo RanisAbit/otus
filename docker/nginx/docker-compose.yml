@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /opt/docker-compose/configs/nginx/config/default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped

@@ -13,16 +13,19 @@
 - `scripts/sql-slave.sh` (для установки и настройки slave-server)
 - `scripts/sql-wp.sh` (для настройки БД для wordpress)
 - `scripts/wordpress.sh` (для развертывания docker контейнера с  wordpress)
+- `scripts/proxy.sh` (для развертывания docker контейнера с  wordpress c nginx)
 - `scripts/agents.sh` (для установки агентов node_exporter и filebeat)
 - `scripts/sqldump.sh` (для создания потабличного бэкапа с сохранением позии бинлога)
 
 ### Docker-compose файлы
 - docker/wordpress/docker-compose.yml
-
+- docker/nginx/docker-compose.yml
+  
 ### Конфигурационные файлы
 - configs/sql-master-server/mysqld.cnf
 - configs/sql-slave-server/mysqld.cnf
 - configs/filebeat/filebeat.yml
+- configs/Nginx/nginx.conf
 
 ## Порядок развертывания
 ### Настройка сервера `backend-1`
@@ -93,6 +96,14 @@
 ```curl -S http://127.0.0.1:8080/health.txt```
 
 ### Настройка Proxy сервера
+1. Подключиться к серверу `proxy`, повысить права до root.
+2. Скачать скрипт proxy.sh, выполнив команду:<br/>
+```curl -O https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/scripts/proxy.sh```
+3. Сделать файл исполняемым.
+```chmod +x proxy.sh```
+4. Запустить скрипт c аргументами, в качестве аргументов необходимо передать IP адреа backend-1 и backend-2
+```./proxy.sh ip_adress ip_adress```
+5.
 
 
 ## Примичание
