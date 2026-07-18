@@ -4,7 +4,7 @@ work_dir="/opt/docker-compose/configs"
 
 # Установка docker
 
-if [ -x /usr/bin/docker ]; then
+if [ -e /usr/bin/docker ]; then
     :
 else
     sudo apt update
@@ -12,7 +12,6 @@ else
     sudo install -m 0755 -d /etc/apt/keyrings
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
-
     sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
 URIs: https://download.docker.com/linux/ubuntu

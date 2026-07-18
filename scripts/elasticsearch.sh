@@ -7,7 +7,7 @@ server_ip=$(ip -br a | grep '10.0.' | awk '{print $3}' | awk -F/ '{print $1}' | 
 
 # Установка docker
 
-if [ -x /usr/bin/docker ]; then
+if [ -e /usr/bin/docker ]; then
     :
 else
     sudo apt update

@@ -1,18 +1,24 @@
 #!/bin/bash
 
+# Задаем переменные
 master_user="repl"
 config_file="/etc/mysql/mysql.conf.d/mysqld.cnf"
 backup_file="/etc/mysql/mysql.conf.d/mysqld.cnf.bak"
 
+# Проверяем наличие mysql в сисетме, если исполняемый файл отсутствует, тогда выполнить установку
+
+if [ ! -e /usr/sbin/mysqld ]; then
 echo "Выполняется настройка master-server"
 
 sudo apt update -y
-sudo apt install -y mysql-server
+sudo apt install mysql-server -y
 
-if [ ! -f "$backup_file" ]; then
+# Делаем бэкап дефолтного конфига 
+if [ ! -e "$backup_file" ]; then
     sudo cp "$config_file" "$backup_file"
 fi
 
+# Если конфиг не настроен на репликацию тогда вписать настройки
 if ! grep -q "server_id = 1" "$config_file"; then
     sudo tee "$config_file" > /dev/null <<EOF
 [mysqld]
@@ -29,19 +35,18 @@ enforce_gtid_consistency = ON
 log_replica_updates = ON
 max_binlog_size = 100M
 EOF
-
     sudo systemctl restart mysql
-else
-    echo "Конфиг содержит настройки master-server"
 fi
+
+# Запрашивем ввод пароля для будщего подключения слейва
 read -rsp "Введите пароль для УЗ подключения к Мастеру: " pass
 echo
-
+# Проверка что пароль был введен
 if [ -z "$pass" ]; then
     echo "Пароль не может быть пустым"
     exit 1
 fi
-
+# Выполнение команд в sql для настройки репликации
 sudo mysql -e "CREATE USER IF NOT EXISTS '${master_user}'@'%' IDENTIFIED BY '${pass}';"
 sudo mysql -e "ALTER USER '${master_user}'@'%' IDENTIFIED BY '${pass}';"
 sudo mysql -e "GRANT REPLICATION SLAVE ON *.* TO '${master_user}'@'%';"

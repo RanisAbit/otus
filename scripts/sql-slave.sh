@@ -1,7 +1,6 @@
 #!/bin/bash
 
 master_user="repl"
-master_address="$1"
 config_file="/etc/mysql/mysql.conf.d/mysqld.cnf"
 backup_file="/etc/mysql/mysql.conf.d/mysqld.cnf.bak"
 
@@ -37,6 +36,8 @@ EOF
 
 sudo systemctl restart mysql
 
+read -rp "Введите IP адрес Master-server: " master_address
+echo
 read -rsp "Введите пароль для УЗ подключения к Master: " pass
 echo
 
