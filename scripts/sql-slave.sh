@@ -1,19 +1,23 @@
 #!/bin/bash
-
+# Задаем переменные
 master_user="repl"
 config_file="/etc/mysql/mysql.conf.d/mysqld.cnf"
 backup_file="/etc/mysql/mysql.conf.d/mysqld.cnf.bak"
 
-echo "Настройка slave-сервера"
-
+# Проверяем наличие mysql в сисетме, если исполняемый файл отсутствует, тогда выполнить установку
+if [ ! -e /usr/sbin/mysqld ]; then
 sudo apt update -y
-sudo apt install -y mysql-server
-
-if [ ! -f "$backup_file" ]; then
+sudo apt install mysql-server -y
+fi
+# Делаем бэкап дефолтного конфига 
+if [ ! -e "$backup_file" ]; then
     sudo cp "$config_file" "$backup_file"
 fi
 
-sudo tee "$config_file" > /dev/null <<EOF
+# Если конфиг не настроен на репликацию тогда вписать настройки
+if ! grep -q "server_id = 2" "$config_file"; then
+    sudo tee "$config_file" > /dev/null <<EOF
+
 [mysqld]
 user = mysql
 
@@ -28,12 +32,12 @@ gtid_mode = ON
 enforce_gtid_consistency = ON
 log_replica_updates = ON
 EOF
-
 sudo systemctl restart mysql
+fi
 
 read -rp "Введите IP адрес Master-server: " master_address
 echo
-read -rsp "Введите пароль для УЗ подключения к Master: " pass
+read -rsp "Введите пароль для подключения к Master-server: " pass
 echo
 
 if [ -z "$pass" ]; then
