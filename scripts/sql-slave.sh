@@ -46,6 +46,6 @@ fi
 sudo mysql -e "STOP REPLICA;"
 sudo mysql -e "CHANGE REPLICATION SOURCE TO SOURCE_HOST='${master_address}', SOURCE_USER='${master_user}', SOURCE_PASSWORD='${pass}', SOURCE_AUTO_POSITION=1, GET_SOURCE_PUBLIC_KEY=1;"
 sudo mysql -e "START REPLICA;"
-sudo mysql -e "SHOW REPLICA STATUS\\G"
+sudo mysql -e "SHOW REPLICA STATUS\G"
 
 echo "Настройка slave-server завершена"
