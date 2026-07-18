@@ -2,7 +2,7 @@
 
 docker_file="/opt/docker-compose/configs/wordpress/docker-compose.yml"
 
-read -rsp "Введите IP адрес Master-server: " $IP_MASTER_MYSQL
+read -rp "Введите IP адрес Master-server: " $IP_MASTER_MYSQL
 echo
 
 if [ -z "$pass" ]; then
