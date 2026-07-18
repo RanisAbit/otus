@@ -80,7 +80,7 @@ filebeat.inputs:
                     docker.container.name: prom
 
 output.logstash:
-  hosts: ["logstash:5044"]
+  hosts: ["$server_ip:5044"]
 
 logging.level: info
 logging.to_files: true
