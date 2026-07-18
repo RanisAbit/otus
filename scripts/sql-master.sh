@@ -8,10 +8,9 @@ backup_file="/etc/mysql/mysql.conf.d/mysqld.cnf.bak"
 # Проверяем наличие mysql в сисетме, если исполняемый файл отсутствует, тогда выполнить установку
 
 if [ ! -e /usr/sbin/mysqld ]; then
-echo "Выполняется настройка master-server"
-
 sudo apt update -y
 sudo apt install mysql-server -y
+fi
 
 # Делаем бэкап дефолтного конфига 
 if [ ! -e "$backup_file" ]; then
