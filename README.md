@@ -49,7 +49,7 @@
 | Proxy | `proxy` | 2 | 4 GB | 10 GB |
 | Backend-1 | `backend-1` | 2 | 4 GB | 10 GB |
 | Backend-2 | `backend-2` | 2 | 4 GB | 10 GB |
-| Monitoring + Logging | `observ` | 2 | 6 GB | 20 GB |
+| Monitoring + Logging | `observ` | 4 | 6 GB | 20 GB |
 
 ## Порядок развёртывания
 

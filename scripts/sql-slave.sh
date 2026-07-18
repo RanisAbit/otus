@@ -4,11 +4,6 @@ master_user="repl"
 config_file="/etc/mysql/mysql.conf.d/mysqld.cnf"
 backup_file="/etc/mysql/mysql.conf.d/mysqld.cnf.bak"
 
-if [ -z "$master_address" ]; then
-    echo "Передай IP master-сервера аргументом"
-    exit 1
-fi
-
 echo "Настройка slave-сервера"
 
 sudo apt update -y
