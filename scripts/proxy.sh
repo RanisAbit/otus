@@ -34,10 +34,8 @@ EOF
 fi
 
 if [ ! -e /opt/docker-compose/configs/nginx/docker-compose.yml ]; then
-    sudo mkdir -p /opt/docker-compose/configs/nginx
-    sudo tee /opt/docker-compose/configs/nginx/docker-compose.yml <<EOF
-version: "3.8"
-
+ sudo mkdir -p /opt/docker-compose/configs/nginx
+sudo tee /opt/docker-compose/configs/nginx/docker-compose.yml <<EOF
 services:
   nginx:
     image: nginx:alpine
@@ -51,46 +49,44 @@ EOF
 fi
 
 sudo mkdir -p /opt/docker-compose/configs/nginx/config/
-
-sudo tee /opt/docker-compose/configs/nginx/config/default.conf << EOF
+sudo tee /opt/docker-compose/configs/nginx/config/default.conf <<EOF
 # Balance server
 
 upstream backend {
     server srv_address1:8080;
     server srv_address2:8080;
 }
-log_format upstreamlog '$remote_addr - $remote_user [$time_local] '
-                      '"$request" $status $body_bytes_sent '
-                      '"$http_referer" "$http_user_agent" '
-                      'host="$host" '
-                      'upstream="$upstream_addr" '
-                      'upstream_status="$upstream_status" '
-                      'upstream_connect_time="$upstream_connect_time" '
-                      'upstream_response_time="$upstream_response_time" '
-                      'request_time="$request_time"';
+
+log_format upstreamlog '\$remote_addr - \$remote_user [\$time_local] '
+                       '"\$request" \$status \$body_bytes_sent '
+                       '"\$http_referer" "\$http_user_agent" '
+                       'host="\$host" '
+                       'upstream="\$upstream_addr" '
+                       'upstream_status="\$upstream_status" '
+                       'upstream_connect_time="\$upstream_connect_time" '
+                       'upstream_response_time="\$upstream_response_time" '
+                       'request_time="\$request_time"';
 
 server {
-        listen       80;
-        listen       [::]:80;
-        server_name  _;
-        root         /usr/share/nginx/html;
-        access_log /dev/stdout upstreamlog;
-        error_log /dev/stderr warn;
+    listen 80;
+    listen [::]:80;
+    server_name _;
+    root /usr/share/nginx/html;
 
-        include /etc/nginx/default.d/*.conf;
+    access_log /dev/stdout upstreamlog;
+    error_log /dev/stderr warn;
 
-        location / {
-            #try_files $uri $uri/ =404;
-            proxy_pass http://backend;
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-Proto $scheme;
-    
-        }
+    include /etc/nginx/default.d/*.conf;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
 }
 EOF
-
 
 sudo sed -i "s/srv_address1/${balance_srv1}/g" /opt/docker-compose/configs/nginx/config/default.conf
 sudo sed -i "s/srv_address2/${balance_srv2}/g" /opt/docker-compose/configs/nginx/config/default.conf

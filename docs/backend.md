@@ -101,11 +101,11 @@
 ```curl -O https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/scripts/proxy.sh```
 3. Сделать файл исполняемым.
 ```chmod +x proxy.sh```
-4. Запустить скрипт c аргументами, в качестве аргументов необходимо передать IP адреа backend-1 и backend-2
+4. Запустить скрипт c аргументами, в качестве аргументов необходимо передать IP адреа backend-1 и backend-2 <br/>
 ```./proxy.sh ip_adress ip_adress```
 5. Проверить работу балансироввки при помощи команды: <br/>
-curl -S http://127.0.0.1/health.txt <br/>
-В ответе должны меня hostanem backend сереров.
+```curl -S http://127.0.0.1/health.txt ```<br/>
+В ответе должны меня hostname backend сереров.
 
 
 
