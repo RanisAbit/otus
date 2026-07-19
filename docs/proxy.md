@@ -12,14 +12,12 @@
 
 Proxy-сервер включает в себя:
 - Docker для развертывания Nginx;
-- node_exporter для экспорта метрик;
-- Filebeat для отправки логов.
 
 ## Используемые файлы
 
 ### Скрипты
 - `scripts/proxy.sh` — развертывание Docker-контейнера с Nginx и настройка балансировки между backend-серверами;
-- `scripts/agents.sh` — установка агентов node_exporter и Filebeat.
+
 
 ### Docker Compose
 - `docker/nginx/docker-compose.yml`
@@ -42,7 +40,7 @@ Proxy-сервер включает в себя:
 
 | Сервер | Назначение | Используемые скрипты |
 |---|---|---|
-| `proxy` | Nginx reverse proxy, балансировка, node_exporter, Filebeat | `proxy.sh`, `agents.sh` |
+| `proxy` | Nginx reverse proxy, балансировка, node_exporter, Filebeat | `proxy.sh` |
 
 ## Общая схема запуска скриптов
 
@@ -129,18 +127,6 @@ docker ps -a
 
 ```bash
 curl -s http://127.0.0.1/health.txt
-```
-
-Проверка сервиса node_exporter:
-
-```bash
-systemctl status prometheus-node-exporter
-```
-
-Проверка сервиса Filebeat:
-
-```bash
-systemctl status filebeat
 ```
 
 ## Примечания
