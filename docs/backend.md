@@ -6,7 +6,7 @@
 - MySQL в репликации master/slave;
 - база данных и пользователь для WordPress;
 - WordPress в Docker на двух backend-серверах;
-- 
+
 ## Состав backend-серверов
 
 Backend-серверы включают в себя:
