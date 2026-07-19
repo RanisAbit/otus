@@ -40,7 +40,7 @@ Proxy-сервер включает в себя:
 
 | Сервер | Назначение | Используемые скрипты |
 |---|---|---|
-| `proxy` | Nginx reverse proxy, балансировка, node_exporter, Filebeat | `proxy.sh` |
+| `proxy` | Nginx reverse proxy, балансировка | `proxy.sh` |
 
 ## Общая схема запуска скриптов
 
