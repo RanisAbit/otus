@@ -6,16 +6,13 @@
 - MySQL в репликации master/slave;
 - база данных и пользователь для WordPress;
 - WordPress в Docker на двух backend-серверах;
-- node_exporter для передачи метрик в Prometheus;
-- Filebeat для передачи логов в Logstash.
-
+- 
 ## Состав backend-серверов
 
 Backend-серверы включают в себя:
 - MySQL master/slave;
 - Docker для развертывания WordPress;
-- node_exporter для экспорта метрик;
-- Filebeat для отправки логов.
+
 
 ## Используемые файлы
 
@@ -32,7 +29,6 @@ Backend-серверы включают в себя:
 ### Конфигурационные файлы
 - `configs/sql-master-server/mysqld.cnf`
 - `configs/sql-slave-server/mysqld.cnf`
-- `configs/filebeat/filebeat.yml`
 
 ## Предварительные требования
 
