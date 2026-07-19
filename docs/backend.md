@@ -194,8 +194,7 @@ curl -O https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/scripts
 - база данных `wordpress` существует на master и slave;
 - контейнер WordPress запущен на обоих backend-серверах;
 - `health.txt` доступен локально на каждом backend-сервере;
-- node_exporter передает метрики в Prometheus;
-- Filebeat отправляет логи в Logstash.
+
 
 ## Команды для проверки
 
