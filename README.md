@@ -12,7 +12,7 @@
 
 ## Состав проекта
 
-- **Backend** — MySQL master/slave в Docker, WordPress
+- **Backend** — MySQL master/slave, WordPress в Docker
 - **Proxy** — Nginx в Docker
 - **Monitoring** — Prometheus + Grafana в Docker
 - **Logging** — Elasticsearch / Filebeat / Logstash / Kibana в Docker
