@@ -49,13 +49,13 @@ filebeat.inputs:
       - container: ~
     processors:
       - add_docker_metadata:
-          host: "unix:///var/run/docker.sock"
+          host: "unix:/var/run/docker.sock"
       - drop_event:
           when:
             not:
               or:
                 - contains:
-                    container.name: nginx
+                    container.name: proxy
                 - contains:
                     container.name: logstash
                 - contains:
@@ -63,21 +63,11 @@ filebeat.inputs:
                 - contains:
                     container.name: elasticsearch
                 - contains:
-                    container.name: graf
+                    container.name: grafana
                 - contains:
-                    container.name: prom
+                    container.name: prometheus
                 - contains:
-                    docker.container.name: nginx
-                - contains:
-                    docker.container.name: logstash
-                - contains:
-                    docker.container.name: kibana
-                - contains:
-                    docker.container.name: elasticsearch
-                - contains:
-                    docker.container.name: graf
-                - contains:
-                    docker.container.name: prom
+                    container.name: wordpress
 
 output.logstash:
   hosts: ["$server_ip:5044"]

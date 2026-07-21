@@ -1,0 +1,15 @@
+sudo tee "$docker_file" > /dev/null <<EOF
+services:
+  wordpress:
+    image: wordpress:6-apache
+    container_name: wordpress
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: $IP_MASTER_MYSQL:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: $pass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - /opt/docker-compose/configs/wordpress/html:/var/www/html

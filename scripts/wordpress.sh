@@ -45,7 +45,7 @@ sudo tee "$docker_file" > /dev/null <<EOF
 services:
   wordpress:
     image: wordpress:6-apache
-    container_name: wp-app
+    container_name: wordpress
     restart: unless-stopped
     ports:
       - "8080:80"
