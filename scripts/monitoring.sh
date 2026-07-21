@@ -36,7 +36,7 @@ sudo tee $work_dir/prometheus/docker-compose.yml << EOF
 services:
   prometheus:
     image: prom/prometheus:latest
-    container_name: prom
+    container_name: prometheus
     ports:
       - 9090:9090
     volumes:
@@ -117,17 +117,14 @@ EOF
 
 
 # Настройка prometheus
-#read -rp "Введите адрес Мастер сервера SQL:" 
-sql_main=10.0.0.201
-#echo
-#read -rp "Введите адрес Слейв сервера SQL:" 
-sql_slave=10.0.0.33
-#echo
-#read -rp "Введите адрес Proxy сервера :" 
-proxy=10.0.0.37
-#echo
-#read -rp "Введите адрес Мониторинг сервера :" 
-monitor=10.0.0.129
+
+read -rp "Введите адрес Мастер сервера SQL:" sql_main
+echo
+read -rp "Введите адрес Слейв сервера SQL:" sql_slave
+echo
+read -rp "Введите адрес Proxy сервера :" proxy
+echo
+read -rp "Введите адрес Мониторинг сервера :" monitor
 
 
 sudo sed -i "s/sql_main/${sql_main}"/g $work_dir/prometheus/conf/node_targets.yml

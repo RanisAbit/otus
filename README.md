@@ -71,6 +71,7 @@
 - Proxy — `docs/proxy.md`
 - Monitoring — `docs/monitoring.md`
 - Logging — `docs/logging.md`
+- Agnets - `docs/agents.md`
 
 ## Структура репозитория
 

@@ -150,5 +150,3 @@ if sudo docker ps -a --format '{{.Names}}' | grep -qx 'kibana'; then
     sudo docker compose -f $kibana_dir/docker-compose.yml down
 fi
 sudo docker compose -f "$kibana_dir/docker-compose.yml" up -d
-
-
