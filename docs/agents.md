@@ -61,8 +61,9 @@ chmod +x agents.sh
 ```bash
 ./agents.sh
 ```
+4. Во время выполнени скрипта 
 
-4. После завершения скрипта убедиться, что node_exporter и Filebeat установлены и запущены:
+5. После завершения скрипта убедиться, что node_exporter и Filebeat установлены и запущены:
 ```bash
 dpkg -l | grep node_exporter
 dpkg -l | grep filebeat

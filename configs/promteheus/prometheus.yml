@@ -17,3 +17,4 @@ scrape_configs:
     file_sd_configs:
       - files:
           - /etc/prometheus/file_sd/node_targets.yml
+
