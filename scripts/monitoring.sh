@@ -10,7 +10,8 @@ else
     sudo apt update
     sudo apt install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    sudo curl -fsSL https://download.docker.com
+    linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
     sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
@@ -74,7 +75,6 @@ EOF
 
 # Загрузка конфигов
 
-#sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/prometheus.yml -O $work_dir/prometheus/conf/prometheus.yml
 sudo tee $work_dir/prometheus/conf/prometheus.yml << EOF
 # Sample config for Prometheus.
 
@@ -97,14 +97,12 @@ scrape_configs:
           - /etc/prometheus/file_sd/node_targets.yml
 EOF
 
-#sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/prometheus/conf/node_targets.yml
 sudo tee $work_dir/prometheus/conf/node_targets.yml << EOF
 - targets: [ 'sql_main:9100', 'sql_slave:9100', 'proxy:9100', 'monitor:9100' ]
   labels:
     job: node
 EOF
 
-#sudo curl -fL https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/configs/node_targets.yml -O $work_dir/grafana/conf/datasources.yml
 sudo tee $work_dir/grafana/datasources/prometheus.yml << EOF
 apiVersion: 1
 datasources:

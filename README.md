@@ -69,9 +69,10 @@
 
 - Backend — `docs/backend.md`
 - Proxy — `docs/proxy.md`
+- Установка агентов - `docs/agents.md`
 - Monitoring — `docs/monitoring.md`
 - Logging — `docs/logging.md`
-- Agnets - `docs/agents.md`
+
 
 ## Структура репозитория
 

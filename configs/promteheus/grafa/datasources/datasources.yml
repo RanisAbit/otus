@@ -3,5 +3,5 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
-    url: http://"$monitor":9090
+    url: http://"monitor":9090
     isDefault: true
