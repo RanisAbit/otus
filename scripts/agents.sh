@@ -8,13 +8,8 @@ fi
 
 #Установка агента filebeat
 if [ ! -e /usr/lib/systemd/system/filebeat.service ]; then
-sudo apt update -y
-sudo apt install prometheus-node-exporter-collectors -y > /dev/null
-sudo wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-sudo apt  install apt-transport-https
-sudo echo "deb https://artifacts.elastic.co/packages/9.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-9.x.list
-sudo apt update -y
-sudo apt install filebeat -y
+curl -O https://images-1f5c8b8d4bd14902abdb2b5b4d9a4a4e.hb.ru-msk.vkcloud-storage.ru/filebeat_8.17.1_amd64-224190-a5f894.deb
+dpkg -i filebeat_8.17.1_amd64-224190-a5f894.deb
 sudo systemctl enable filebeat
 fi
 
