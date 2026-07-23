@@ -3,15 +3,14 @@
 work_dir="/opt/docker-compose/configs"
 
 # Установка docker
-
 if [ -e /usr/bin/docker ]; then
     :
 else
     sudo apt update
     sudo apt install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com
-    linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    # Исправлена разорванная строка:
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
     sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
@@ -47,8 +46,7 @@ services:
 EOF
 
 # Установка grafana
-
-read -rsp "Введите пароль для grafana:" pass
+read -rsp "Введите пароль для grafana: " pass
 echo
 sudo mkdir -p $work_dir/grafana/datasources/
 sudo mkdir -p $work_dir/grafana/data/
@@ -73,9 +71,8 @@ services:
     restart: unless-stopped
 EOF
 
-# Загрузка конфигов
-
-sudo tee $work_dir/prometheus/conf/prometheus.yml << EOF
+# Загрузка конфигов (добавлены кавычки 'EOF', чтобы bash не ругался на обратные кавычки в тексте)
+sudo tee $work_dir/prometheus/conf/prometheus.yml << 'EOF'
 # Sample config for Prometheus.
 
 global:
@@ -97,13 +94,13 @@ scrape_configs:
           - /etc/prometheus/file_sd/node_targets.yml
 EOF
 
-sudo tee $work_dir/prometheus/conf/node_targets.yml << EOF
+sudo tee $work_dir/prometheus/conf/node_targets.yml << 'EOF'
 - targets: [ 'sql_main:9100', 'sql_slave:9100', 'proxy:9100', 'monitor:9100' ]
   labels:
     job: node
 EOF
 
-sudo tee $work_dir/grafana/datasources/prometheus.yml << EOF
+sudo tee $work_dir/grafana/datasources/prometheus.yml << 'EOF'
 apiVersion: 1
 datasources:
   - name: Prometheus
@@ -113,9 +110,7 @@ datasources:
     isDefault: true
 EOF
 
-
 # Настройка prometheus
-
 read -rp "Введите IP-адрес мастер-сервера SQL: " sql_main
 echo
 read -rp "Введите IP-адрес slave-сервера SQL: " sql_slave
@@ -125,15 +120,15 @@ echo
 read -rp "Введите IP-адрес сервера мониторинга: " monitor
 echo 
 
-
-sudo sed -i "s/sql_main/${sql_main}"/g $work_dir/prometheus/conf/node_targets.yml
+# Исправлена опечатка в кавычках для первого sed
+sudo sed -i "s/sql_main/${sql_main}/g" $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/sql_slave/${sql_slave}/g" $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/proxy/${proxy}/g" $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/monitor/${monitor}/g" $work_dir/prometheus/conf/node_targets.yml
 sudo sed -i "s/monitor/${monitor}/g" $work_dir/grafana/datasources/prometheus.yml
 
-#Запуск контейнеров
-if sudo docker ps -a --format '{{.Names}}' | grep -qx 'prom'; then
+# Запуск контейнеров
+if sudo docker ps -a --format '{{.Names}}' | grep -qx 'prometheus'; then
     sudo docker compose -f $work_dir/prometheus/docker-compose.yml down
 fi
 sudo docker compose -f $work_dir/prometheus/docker-compose.yml up -d
@@ -142,4 +137,3 @@ if sudo docker ps -a --format '{{.Names}}' | grep -qx 'graf'; then
     sudo docker compose -f $work_dir/grafana/docker-compose.yml down
 fi
 sudo docker compose -f $work_dir/grafana/docker-compose.yml up -d
-
