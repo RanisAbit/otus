@@ -129,7 +129,9 @@ server.host: "0.0.0.0"
 elasticsearch.hosts: ["http://$server_ip:9200"]
 EOF
 
-sudo sysctl -w vm.max_map_count=1048576
+sudo echo "vm.max_map_count=1048576" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+
 
 #Запуск контейнеров
 if sudo docker ps -a --format '{{.Names}}' | grep -qx 'elasticsearch'; then
