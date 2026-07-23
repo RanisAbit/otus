@@ -59,7 +59,7 @@ sudo tee $work_dir/grafana/docker-compose.yml << EOF
 services:
   grafana:
     image: grafana/grafana
-    container_name: graf
+    container_name: grafana
     ports:
       - 3000:3000
     environment:
