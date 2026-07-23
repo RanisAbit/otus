@@ -62,7 +62,7 @@
 1. Скачать скрипт:
 
 ```bash
-curl -O https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/script/logging.sh
+curl -O https://raw.githubusercontent.com/RanisAbit/otus/refs/heads/main/scripts/logging.sh
 ```
 
 2. Сделать файл исполняемым:
